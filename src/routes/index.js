@@ -1,16 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+import DefaultLayout  from "../layouts/DefaultLayout";
 
 // Components
-import { Home } from "../components";
+import Dashboard from "../components/Dashboard";
+import Home from '../components/Home';
 
 const AppRouter = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
+        <DefaultLayout exact path="/" component={Home} />
+        <DefaultLayout path="/dashboard" component={Dashboard} />
       </Switch>
     </Router>
   );
