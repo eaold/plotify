@@ -16,7 +16,7 @@ const query = {
   try {
     window.location=
     `https://accounts.spotify.com/authorize?${queryString.stringify(query)}`;
-  
+    
     dispatch({ type: types.USER_LOGIN_SUCCESS });
   } catch (err) {
     dispatch({ type: types.USER_LOGIN_FAILURE });
@@ -37,7 +37,7 @@ export const sendUserInfo = (user) => async (dispatch) => {
     );
     dispatch({ type: types.SEND_USER_INFO_SUCCESS, payload: updatedUser });
   } catch (err) {
-    dispatch({ type: types.SEND_USER_INFO_FAILURE, payload: err });
+    dispatch({ type: types.SEND_USER_INFO_FAILURE, payload: err.response });
   }
 };
 
@@ -51,12 +51,13 @@ export const getUserInfo = () => async (dispatch) => {
     console.log(userInfo.data);
     dispatch({ type: types.GET_USER_INFO_SUCCESS, payload: userInfo });
   } catch (err) {
-    dispatch({ type: types.GET_USER_INFO_FAILURE, payload: err });
+    dispatch({ type: types.GET_USER_INFO_FAILURE, payload: err.response });
   }
 };
 
 export const removeToken = () => (dispatch) => {
   const stored_token = localStorage.getItem('token');
+  console.log('removing token')
 
   if (stored_token) {
     localStorage.removeItem('token');

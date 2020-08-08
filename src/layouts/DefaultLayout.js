@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import queryString from "query-string";
 import { Route, withRouter } from "react-router-dom";
+import moment from "moment";
 import { Nav } from "../components";
 import { connect } from "react-redux";
 import {
@@ -21,23 +22,45 @@ const DefaultLayout = ({
   history,
   ...rest
 }) => {
+ 
+
   useEffect(() => {
     const access_token = localStorage.getItem("token");
     const query_token = queryString.parse(window.location.hash.substring(1))
       .access_token;
 
     if (!access_token && query_token) {
-      const store_token = JSON.stringify([query_token, new Date()]);
+      const store_token = JSON.stringify([
+        query_token,
+        moment().add(5, "minutes"),
+      ]);
       console.log(store_token);
       localStorage.setItem("token", store_token);
-      authenticate(JSON.parse(store_token)[0]);
+      authenticate(store_token);
     }
   }, []);
 
   useEffect(() => {
     if (token) {
+      const expiration_time = JSON.parse(token)[1];
+  
+
+      console.log("checking token");
+      console.log(expiration_time);
+      console.log(`now: ${moment()}`);
+
+      if (moment(expiration_time).isBefore(moment())) {
+        removeToken();
+        history.push("/");
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (token) {
       getUserInfo();
-  }}, [token]);
+    }
+  }, [token]);
 
   useEffect(() => {
     if (display_name) {
@@ -46,20 +69,11 @@ const DefaultLayout = ({
     }
   }, [display_name]);
 
-  useEffect(() => {
-    if (!token) {
-      history.push("/");
-    }
-  }, [token]);
-
-  useEffect(() => {
-    if (token) {
-      const expiration_time = JSON.parse(token)[1];
-      if (expiration_time < new Date()) {
-        removeToken();
-      }
-    }
-  });
+  // useEffect(() => {
+  //   if (!token) {
+  //     history.push("/");
+  //   }
+  // }, []);
 
   return (
     <Route
