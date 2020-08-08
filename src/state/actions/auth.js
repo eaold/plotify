@@ -1,21 +1,35 @@
 import axios from "axios";
-import { axiosWithAuth } from "../../utils/axios";
+import queryString from 'query-string'
+import { axiosWithAuth, Axios } from "../../utils/axios";
 import * as types from "../types";
 
-export const login = () => (dispatch) => {
+
+export const login = () => async (dispatch) => {
   dispatch({ type: types.USER_LOGIN_START });
-  window.location = "http://localhost:5000/login";
+const query = {
+  client_id: process.env.REACT_APP_CLIENT_ID,
+  response_type: 'token',
+  redirect_uri: process.env.REACT_APP_REDIRECT_URI,
+  scope: 'user-read-private user-read-email playlist-read-private user-library-read user-top-read user-read-recently-played'
+}
+
+  try {
+    window.location=
+    `https://accounts.spotify.com/authorize?${queryString.stringify(query)}`;
+  
+    dispatch({ type: types.USER_LOGIN_SUCCESS });
+  } catch (err) {
+    dispatch({ type: types.USER_LOGIN_FAILURE });
+  }
 };
 
 export const authenticate = (token) => (dispatch) => {
   dispatch({ type: types.USER_AUTHENTICATE, payload: token });
 };
 
-
-
-export const sendUserInfo = ( user ) => async (dispatch) => {
+export const sendUserInfo = (user) => async (dispatch) => {
   dispatch({ type: types.SEND_USER_INFO });
-  console.log(user)
+  console.log(user);
   try {
     const updatedUser = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/users`,
@@ -40,3 +54,13 @@ export const getUserInfo = () => async (dispatch) => {
     dispatch({ type: types.GET_USER_INFO_FAILURE, payload: err });
   }
 };
+
+export const removeToken = () => (dispatch) => {
+  const stored_token = localStorage.getItem('token');
+
+  if (stored_token) {
+    localStorage.removeItem('token');
+    dispatch({ type: types.REMOVE_TOKEN})
+  }
+
+}

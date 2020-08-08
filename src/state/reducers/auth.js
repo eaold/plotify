@@ -42,6 +42,11 @@ export const authReducer = (state = initialState, action) => {
         isLoading: false,
         id: action.payload.data._id
       };
+      case types.REMOVE_TOKEN:
+        return {
+          ...state,
+          token: ''
+        }
     case types.USER_LOGIN_FAILURE:
     case types.GET_USER_INFO_FAILURE:
     case types.SEND_USER_INFO_FAILURE:

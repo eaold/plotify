@@ -6,25 +6,7 @@ import { authenticate, getUserInfo, sendUserInfo } from "../state/actions/auth";
 
 
 
-const Dashboard = ({ auth: {
-  display_name, email, href, image
-},authenticate, getUserInfo, sendUserInfo }) => {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const query_token = queryString.parse(window.location.search);
-
-    if (!token || token !== query_token.access_token) {
-      localStorage.setItem("token", query_token.access_token);
-      authenticate(query_token.acess_token);
-    } 
-    getUserInfo();
-  }, []);
-
-  useEffect(() => {
-    sendUserInfo({display_name, email, href, image})
-  },[display_name])
-
-
+const Dashboard = () => {
   return (
     <div>
       <div>

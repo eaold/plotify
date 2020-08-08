@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Styles, { Button } from "../styles";
 import { Icon } from "../assets";
@@ -6,7 +6,9 @@ import { connect } from "react-redux";
 
 import { login } from "../state/actions/auth";
 
-const Home = ({login}) => {
+const Home = ({ history, auth: { id, isLoggedIn }, login }) => {
+
+
   return (
     <HomeContainer>
       <SiteTitle>
