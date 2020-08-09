@@ -10,7 +10,7 @@ import {
   getUserInfo,
   sendUserInfo,
   removeToken,
-} from "../state/actions/auth";
+} from "../state/actions";
 
 const DefaultLayout = ({
   component: Component,

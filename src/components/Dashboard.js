@@ -1,21 +1,75 @@
 import React, { useEffect } from "react";
-import queryString from "query-string";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { authenticate, getUserInfo, sendUserInfo } from "../state/actions/auth";
+import { GraphContainer } from "../styles";
+import {
+  fetchTopArtistsMonth,
+  fetchTopArtistsOverall,
+  fetchTopMusicMonth,
+  fetchTopMusicOverall,
+  fetchPlaylists,
+  fetchAlbums,
+  fetchTracks,
+} from "../state/actions";
 
+const Dashboard = ({
+  auth: { display_name, token },
+  fetchTopArtistsMonth,
+  fetchTopArtistsOverall,
+  fetchTopMusicMonth,
+  fetchTopMusicOverall,
+  fetchPlaylists,
+  fetchAlbums,
+  fetchTracks,
+}) => {
+  useEffect(() => {
+    if (token) {
+      fetchTopArtistsMonth();
+      fetchTopArtistsOverall();
+      fetchTopMusicMonth();
+      fetchTopMusicOverall();
+      fetchPlaylists();
+      fetchAlbums();
+      fetchTracks();
+    }
+  }, [token]);
 
-
-const Dashboard = () => {
   return (
-    <div>
-      <div>
-        <div>This is the dashboard.</div>
-      </div>
-    </div>
+    <DashboardContainer>
+      <GraphContainer>
+        <h3>Welcome, {display_name}</h3>
+      </GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+      <GraphContainer></GraphContainer>
+    </DashboardContainer>
   );
 };
 
-export default connect((state) => state, { authenticate, getUserInfo, sendUserInfo })(
-  Dashboard
-);
+export default connect((state) => state, {
+  fetchTopArtistsMonth,
+  fetchTopArtistsOverall,
+  fetchTopMusicMonth,
+  fetchTopMusicOverall,
+  fetchPlaylists,
+  fetchAlbums,
+  fetchTracks,
+})(Dashboard);
+
+const DashboardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 3rem;
+  flex-wrap: wrap;
+  h3 {
+    align-self: flex-start;
+  }
+`;
