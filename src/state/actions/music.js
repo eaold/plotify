@@ -17,7 +17,7 @@ export const fetchTopArtistsMonth = () => async (dispatch) => {
   const topArtistsMonth = await axiosWithAuth().get(`${topArtistsMonthUrl}`);
   dispatch({
     type: types.FETCH_TOP_ARTISTS_MONTH_SUCCESS,
-    payload: topArtistsMonth,
+    payload: topArtistsMonth.data.items,
   });
 };
 export const fetchTopArtistsOverall = () => async (dispatch) => {
@@ -26,21 +26,21 @@ export const fetchTopArtistsOverall = () => async (dispatch) => {
   );
   dispatch({
     type: types.FETCH_TOP_ARTISTS_OVERALL_SUCCESS,
-    payload: topArtistsOverall,
+    payload: topArtistsOverall.data.items,
   });
 };
 export const fetchTopMusicMonth = () => async (dispatch) => {
   const topMusicMonth = await axiosWithAuth().get(`${topMusicMonthUrl}`);
   dispatch({
     type: types.FETCH_TOP_MUSIC_MONTH_SUCCESS,
-    payload: topMusicMonth,
+    payload: topMusicMonth.data.items,
   });
 };
 export const fetchTopMusicOverall = () => async (dispatch) => {
   const topMusicOverall = await axiosWithAuth().get(`${topMusicOverallUrl}`);
   dispatch({
     type: types.FETCH_TOP_MUSIC_OVERALL_SUCCESS,
-    payload: topMusicOverall,
+    payload: topMusicOverall.data.items,
   });
 };
 export const fetchPlaylists = () => async (dispatch) => {

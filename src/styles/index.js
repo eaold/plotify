@@ -1,4 +1,5 @@
 export * from './Button';
+export * from './GraphContainer';
 
 // Colours
 export const colorLight = "#FFFFFF";
